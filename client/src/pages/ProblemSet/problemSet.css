@@ -1,0 +1,57 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.problemSet{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.problemSet h1{
+    align-self: center;
+    padding: 10px;
+    margin: 20px;
+    color: whitesmoke ;
+
+}
+
+.setContainer{
+    align-self: center;
+    list-style-type: none;
+    width: 85%;
+    background-color: whitesmoke;
+    border: 2px solid;
+    padding: 0;
+}
+
+.setHeading{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;    
+    padding-left: 25px;
+    padding-right: 25px;
+    border:black solid;
+    border-width: 2px;
+    padding: 8px;
+}
+
+.setProblem{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+    border:black solid;
+    border-top: none;
+    border-width: 1px;        
+    font-weight: 400;
+}
+
+.setProblem:hover{
+    background-color: white;    
+    font-weight: 600;
+}

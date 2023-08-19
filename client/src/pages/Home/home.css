@@ -1,0 +1,11 @@
+/* Home.css */
+  
+  .centered-text {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: rgb(185, 180, 180);
+    font-weight: lighter;
+    margin-top: 17%;
+
+  }

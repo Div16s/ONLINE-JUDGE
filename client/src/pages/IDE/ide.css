@@ -1,0 +1,206 @@
+/* .editor {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .heading {
+    color: #7c7c7c;
+    font-size: 24px;
+    margin-bottom: 0px;
+    margin-top: 10px;
+  }
+  
+  .selectBox {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 8px 30px 8px 10px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #0c0c0c;
+    color: white;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: none;
+    margin-top: 10px;
+    direction: ltr;
+    text-align: left;
+  }
+  
+  .button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .inputArea {
+    margin-top: 0;
+    width: 100%;
+    border: 1px solid #ccc;
+    background-color: #f5f5f5;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: none;
+    direction: ltr;
+    text-align: left;
+  
+  }
+  
+  .input-heading{
+    background-color: #333;
+    color: #ccc;
+    font-family: 'Courier New';
+    padding: 3px;
+  }
+  
+  .outputArea {
+    margin-top: 10px;
+    width: 100%;
+    height: 46%;
+    border: 1px solid #ccc;
+    background-color: #f5f5f5;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: none;
+    margin-top: 10px;
+    direction: ltr;
+    text-align: left;
+  }
+  
+  .output-heading{
+    background-color: #333;
+    color: #ccc;
+    font-family: 'Courier New';
+    padding: 3px;
+  }
+  
+  .outputContainer {
+    color: green;
+    font-family: 'Courier New', monospace;
+    font-weight: bolder;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+  } */
+
+  /* Home.css */
+/* ide.css */
+.editor {
+  text-align: center;
+  padding: 20px;
+  width: 100%;
+}
+
+.heading {
+  color: #7c7c7c;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.selectBox {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 8px 30px 8px 10px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  margin-right: 100%;
+}
+
+.textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #0c0c0c;
+  color: white;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: none;
+  
+  direction: ltr;
+  text-align: left;
+}
+
+.button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-left: 94%;
+}
+
+.inputArea {
+  width: 100%;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.5;
+  resize: none;
+  direction: ltr;
+  text-align: left;
+}
+
+.input-heading {
+  background-color: #333;
+  color: #ccc;
+  font-family: 'Courier New';
+  padding: 3px;
+  margin-top: 0;
+}
+
+.outputArea {
+  margin-top: 5px;
+  width: 750px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: none;
+  direction: ltr;
+  text-align: left;
+}
+
+.output-heading {
+  background-color: #333;
+  color: #ccc;
+  font-family: 'Courier New';
+  padding: 3px;
+  margin-top: 0;
+}
+
+.outputContainer {
+  color: green;
+  font-family: 'Courier New', monospace;
+  font-weight: bolder;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 18.1%;
+  width: 100%;
+}
+
