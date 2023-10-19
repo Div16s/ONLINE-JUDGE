@@ -4,6 +4,7 @@ import { ErrorMessage } from '../../Components/ErrorMessage';
 import axios from 'axios';
 import Loading from '../../Components/Loading';
 import { useEffect } from 'react';
+import './SignupPage.css';
 
 
 export const SignupPage = () => {
@@ -18,12 +19,12 @@ export const SignupPage = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const userInfo = localStorage.getItem('userInfo');
-    if (userInfo) {
-      navigate('/home');
-    }
-  }, [navigate]);
+  // useEffect(() => {
+  //   const userInfo = localStorage.getItem('userInfo');
+  //   if (userInfo) {
+  //     navigate('/home');
+  //   }
+  // }, [navigate]);
 
   const submitForm = async (e) => {
     e.preventDefault();
@@ -57,15 +58,19 @@ export const SignupPage = () => {
         localStorage.setItem('userInfo', JSON.stringify(data));
 
         setLoading(false);
-      } catch (error) {
 
+        navigate('/home');
+      } catch (error) {
+        console.log(error);
+        setError("Error: Signing Up!");
+        setLoading(false);
       }
     }
   }
 
   return (
-    <div>
-      <h1 style={{ color: "white" }}>SIGNUP</h1>
+    <div className='signupPage-container'>
+      <h1 className='signupPage-heading'>SIGNUP</h1>
       {error && <ErrorMessage variant='danger'>{error}</ErrorMessage>}
       {message && <ErrorMessage variant='danger'>{message}</ErrorMessage>}
       {loading && <Loading />}
@@ -76,7 +81,7 @@ export const SignupPage = () => {
             type="text"
             id="name"
             name="name"
-            required value={name}
+            value={name}
             placeholder='Enter your name'
             onChange={(e) => setName(e.target.value)}
           />
@@ -88,7 +93,7 @@ export const SignupPage = () => {
             type="email"
             id="email"
             name="email"
-            required value={email}
+            value={email}
             placeholder='Enter your email'
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -100,7 +105,7 @@ export const SignupPage = () => {
             type="password"
             id="password"
             name="password"
-            required value={password}
+            value={password}
             placeholder='Enter your password'
             onChange={(e) => setPassword(e.target.value)}
 
@@ -113,7 +118,7 @@ export const SignupPage = () => {
             type={'password'}
             id="confirmPassword"
             name="confirmPassword"
-            required value={confirmPassword}
+            value={confirmPassword}
             placeholder='ReEnter your password'
             onChange={(e) => setConfirmPassword(e.target.value)}
 
@@ -131,7 +136,7 @@ export const SignupPage = () => {
           />
         </div>
 
-        <button className='login-signup-button' type="submit">SIGN UP</button>
+        <button className='signup-button' type="submit">SIGN UP</button>
       </form>
     </div>
 

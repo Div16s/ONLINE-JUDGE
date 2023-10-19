@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import {Row,Col} from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import Loading from '../../Components/Loading';
 import { ErrorMessage } from '../../Components/ErrorMessage';
 import { useEffect } from 'react';
+import './LoginPage.css'
+
 
 export const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -14,28 +16,20 @@ export const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const userInfo = localStorage.getItem('userInfo');
-    if(userInfo){
-        navigate('/home');
-    }
-}, [navigate]);
-
   const submitForm = async (e) => {
     e.preventDefault();
-    //console.log(email,password);
+    setLoading(true);
+    e.target.disabled = true;
 
     try {
       //whenever we make an API request it takes json data, so we have to provide some headers
       const config = {
-        headers:{
-          "Content-type":"application/json"
+        headers: {
+          "Content-type": "application/json"
         }
       }
 
-      setLoading(true);
-
-      const {data} = await axios.post(
+      const { data } = await axios.post(
         "http://localhost:8000/login",
         {
           email,
@@ -44,20 +38,21 @@ export const LoginPage = () => {
         config,
       );
 
-      console.log(data);
-      localStorage.setItem('userInfo',JSON.stringify(data));
+      // console.log(data);
+      localStorage.setItem('userInfo', JSON.stringify(data));
 
       setLoading(false);
-
+      navigate('/home');
     } catch (error) {
-      setError(error.response.data.message);
+      setError("Invalid email or password!");
       setLoading(false);
     }
+    e.target.disabled = false;
   }
 
   return (
-    <div>
-      <h1 style={{ color: "white" }}>LOGIN</h1>
+    <div className='loginPage-container'>
+      <h1 className='loginPage-heading'>LOGIN</h1>
       {loading && <Loading />}
       {error && <ErrorMessage variant='danger'>{error}</ErrorMessage>}
       <form action='' className='login-form' onSubmit={submitForm}>
@@ -65,11 +60,11 @@ export const LoginPage = () => {
           <label htmlFor='email' className='label'>
             Email
           </label>
-          <input 
-            type='email' 
-            name='email' 
-            id='email' 
-            value={email} 
+          <input
+            type='email'
+            name='email'
+            id='email'
+            value={email}
             placeholder='Enter email'
             onChange={(e) => setEmail(e.target.value)}
           >
@@ -80,24 +75,27 @@ export const LoginPage = () => {
           <label htmlFor='password' className='label'>
             Password
           </label>
-          <input 
-            type='password' 
-            name='password' 
-            id='password' 
-            value={password} 
+          <input
+            type='password'
+            name='password'
+            id='password'
+            value={password}
             placeholder='Enter password'
             onChange={(e) => setPassword(e.target.value)}
           >
           </input>
         </div>
+  
+        <p><Link to='/forgetPassword'>Forget Password?</Link></p>
 
         <button className='login-signup-button' type='submit' style={{ fontWeight: "bold" }}>LOGIN</button>
+        <Row className='py-3 px-3'>
+          <Col style={{ backgroundColor: 'white' }}>
+            New User ? <Link to='/signup'>Register Here</Link>
+          </Col>
+        </Row>
       </form>
-      <Row className='py-3'>
-        <Col style={{backgroundColor:'white'}}>
-          New User ? <Link to='/signup'>Register Here</Link>
-        </Col>
-      </Row>
+
 
     </div>
   )

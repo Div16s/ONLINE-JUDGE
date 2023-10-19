@@ -1,0 +1,75 @@
+.signupPage-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: rgb(15, 15, 15); /* Background color for the entire page */
+}
+
+.signupPage-heading {
+  color: #00bb00;
+}
+
+.signup-form {
+  max-width: 400px;
+  width: 100%;
+  background-color: #f8f5f5de;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 6px 6px 10px #00bb00;
+}
+
+/* Style the form labels */
+.label {
+  font-weight: bold;
+}
+
+/* Style the form inputs */
+.div {
+  margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+/* Style the login button */
+.signup-button {
+  background-color: #222222;
+  color: #00bb00;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.signup-button:hover {
+  background-color: #000000; /* Change background color on hover */
+  color: #00bb00; /* Change text color on hover */
+}
+
+/* Style the error message */
+.error-message {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Style the "New User?" link */
+.py-3 {
+  text-align: center;
+  color: #333; /* Link color */
+}
+
+.py-3 a {
+  text-decoration: none;
+  color: #007bff; /* Link color on hover */
+}

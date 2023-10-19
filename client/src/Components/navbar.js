@@ -1,24 +1,43 @@
 import { Link } from "react-router-dom";
 import "./navbar.css"
 import { useNavigate } from "react-router-dom";
-import logo from './logo.png'
-export const Navbar = () => {
+import logo from './csfn-logo.png'
+import { useEffect } from "react";
+
+export const Navbar = ({setSearch}) => {
     const navigate = useNavigate();
+    //const userInfo = localStorage.getItem('userInfo');
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    //console.log(userInfo);
+
+    // useEffect(() => {
+    //     if (userInfo) {
+    //         navigate('/');
+    //     }
+    // }, [navigate]);
+
+    const logoutHandler = () => {
+        // Remove user information from localStorage
+        localStorage.removeItem('userInfo');
+
+        // Navigate the user to the '/' route
+        navigate('/');
+    }
 
     return (
         <>
-            <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="/home">
-                        <img src={logo} className='navbar-logo'></img>
+            <nav className="navbar navbar-light navbar-expand-lg" style={{backgroundColor:"#00BB00",borderBottom:"1.5px solid white"}}>
+                <div className="container-fluid">
+                    <a className="navbar-brand" href="/home">
+                        <img src={logo} className='navbar-logo' style={{width:"230px",height:"38px"}}></img>
                     </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <form class="d-flex mx-auto" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                            <button class="btn btn-outline-light" type="submit">Search</button>
+                            <input class="form-control me-2 bg-dark" type="search" placeholder="Discover Problems" aria-label="Search" onChange={(e)=>setSearch(e.target.value)} />
+                            {/* <button class="btn btn-outline-dark" type="submit">Search</button> */}
                         </form>
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li class="nav-item">
@@ -37,16 +56,13 @@ export const Navbar = () => {
                                 <Link to={'/ide'} className='ide'>IDE</Link>
                             </li>
                             <li class="nav-item nav-dropdown dropdown">
-                                <Link class="user-dropdown nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    User
+                                <Link class="user user-dropdown dropdown-toggle" role="button" data-bs-toggle="dropdown" >
+                                    {userInfo && userInfo.name}
                                 </Link>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="/myProfile">My Profile</a></li>
+                                    <li><a class="dropdown-item" href="/myProfile" style={{fontFamily: "IBM Plex Mono, monospace",fontWeight:"bold"}}>My Profile</a></li>
                                     <li><hr class="dropdown-divider" /></li>
-                                    <li><button class="btn dropdown-item" onClick={() => {
-                                        localStorage.removeItem('userInfo');
-                                        navigate('/');
-                                    }}>LOGOUT</button></li>
+                                    <li><button class="btn dropdown-item" style={{fontFamily: "IBM Plex Mono, monospace", fontWeight:"bold"}} onClick={logoutHandler}>LOGOUT➡️</button></li>
                                 </ul>
                             </li>
                         </ul>

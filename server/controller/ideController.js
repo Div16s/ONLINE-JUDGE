@@ -1,5 +1,5 @@
 const { generateFile, generateInput } = require('../generateFile.js');
-const executeCpp = require('../executeCPP.js');
+const executeCpp = require('../executeCode.js');
 // const app = express();
 
 // //middleWares
@@ -18,6 +18,7 @@ const ideController =  async (req, res) => {
             return res.status(404).json({ success: "false", error: "Empty code body!" });
         }
         const inputfile = await generateInput(input);
+        
         const filePath = await generateFile(language, code);
         const output = await executeCpp(filePath);
         res.json({ filePath, output, inputfile });
@@ -25,7 +26,7 @@ const ideController =  async (req, res) => {
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, error: "Internal Server Error" });
+        res.status(500).json({ success: false, error: "Internal Server Error, ideController" });
     }
 }
 

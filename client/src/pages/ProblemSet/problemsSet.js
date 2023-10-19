@@ -3,9 +3,9 @@ import './problemSet.css';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {Navbar } from '../../Components/navbar';
+import { Navbar } from '../../Components/navbar';
 
-export const ProblemsSet = () => {
+export const ProblemsSet = ({ search }) => {
     const [problemSet, setProblemSet] = useState([]);
     const naviGate = useNavigate();
 
@@ -30,24 +30,36 @@ export const ProblemsSet = () => {
     }, []);
     return (
         <>
-        <Navbar />
-        <div className='problemSet'>
-            <h1>PROBLEM SET</h1>
-            <div className='setContainer'>
-                <div className='setHeading'>
-                    <h3>Problem</h3>
-                    <h3>Difficulty</h3>
+            <div className='problemSet'>
+                <h1 className='heading' style={{fontFamily: "IBM Plex Mono, monospace"}}>PROBLEM SET</h1>
+                <div className='setContainer'>
+                    <div className='setHeading'>
+                        <h3 style={{fontFamily: "IBM Plex Mono, monospace"}}>Problem</h3>
+                        <h3 style={{fontFamily: "IBM Plex Mono, monospace"}}>Difficulty</h3>
+                    </div>
+                    <ol style={{ paddingLeft: "0px" }}>
+                        {problemSet?.reverse().filter(filteredProblem => (
+                            filteredProblem.problemName.toLowerCase().includes(search.toLowerCase())
+                        )).map((v) => (
+                            <li key={v._id} className="setProblem" onClick={() => showProblemStatement(v._id)} >
+                                <div className="setProblemName">
+                                    <span style={{fontFamily: "IBM Plex Mono, monospace"}}>{v.problemName}</span>
+                                </div>
+                                <div className="setProblemDifficulty">
+                                    <span style={{
+                                        fontFamily: "IBM Plex Mono, monospace",
+                                        color:
+                                            v.problemDifficulty === 'Easy' ? 'green' :
+                                                v.problemDifficulty === 'Medium' ? '#ccbb11' :
+                                                    v.problemDifficulty === 'Hard' ? 'red' : 'white',
+                                        
+                                    }}> {v.problemDifficulty} </span>
+                                </div>
+                            </li>
+                        ))}
+                    </ol>
                 </div>
-                <ol style={{paddingLeft:"0px"}}>
-                    {problemSet.map((v) =>  (
-                        <li key={v._id} className="setProblem" onClick={() => showProblemStatement(v._id)} >
-                            <div className="setProblemName">{v.problemName}</div>
-                            <div className="setProblemDifficulty">  {v.problemDifficulty} </div>
-                        </li>
-                    ))}
-                </ol>
             </div>
-        </div>
         </>
     )
 }

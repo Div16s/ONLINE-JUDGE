@@ -7,23 +7,23 @@
 .problemSet{
     display: flex;
     flex-direction: column;
-    height: 100%;
+    min-height: 100vh;
 }
 
-.problemSet h1{
+.heading{
     align-self: center;
     padding: 10px;
     margin: 20px;
     color: whitesmoke ;
-
+    /* border-bottom: 1px solid white; */
 }
 
 .setContainer{
     align-self: center;
     list-style-type: none;
     width: 85%;
-    background-color: whitesmoke;
-    border: 2px solid;
+    background-color: rgb(202, 205, 201);
+    border: 3px solid #4ec22b;
     padding: 0;
 }
 

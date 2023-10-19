@@ -17,10 +17,19 @@ async function generateFile(format, code) {
 
 
 async function generateInput(content){
-  const filename = `input.txt`;
-  const filepath = path.join(dirCodes,filename);
-  await fs.writeFileSync(filepath,content);
-  return filepath;
+  // const filename = `input.txt`;
+  // const filepath = path.join(dirCodes,filename);
+  // await fs.writeFileSync(filepath,content);
+  // return filepath;
+  try {
+    const filename = `input.txt`;
+    const filepath = path.join(dirCodes, filename);
+    fs.writeFileSync(filepath, content);
+    return filepath;
+  } catch (error) {
+    console.log("Error writing to input.txt:", error);
+    throw error; // Rethrow the error to handle it in your calling code
+  }
 }
 
 module.exports  = { generateFile,generateInput };

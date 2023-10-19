@@ -1,102 +1,170 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Jost", sans-serif;
-  }
-  
-  html {
-    font-size: 15px;
-  }
-  
-  a {
-    text-decoration: none;
-  }
-  
-  li {
-    list-style: none;
-  }
-  
-  .main-nav {
-    width: 100%;
-    height: 6.5rem;
-    display: grid;
-    grid-template-columns: 5rem 1fr 2fr 5rem;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-      rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
-  }
-  
-  .logo {
-    display: grid;
-    /* background-color: #3b5998; */
-    grid-column: 2/3;
-    justify-content: start;
-    align-items: center;
-  }
-  
-  .menu-links {
-    grid-column: 3/4;
-  }
-  
-  .menu-links ul {
-    height: 6.5rem;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
-  
-  .menu-links ul li {
-    font-size: 15px;
-  }
-  
-  .menu-links ul li a {
-    text-transform: capitalize;
-    color: rgba(0, 0, 3, 0.8);
-    transition: 0.5s;
-  }
-  .menu-links ul li:hover > a {
-    transform-origin: left;
-    color: rgba(0, 0, 3, 1);
-    text-decoration: underline;
-    transition: 0.5s;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Jost", sans-serif;
+}
 
-  .home{
-    text-decoration: none;
-    color: white;
-    margin-left: 30px;
-    margin-right: 15px;
-    align-self: center;
-  }
+html {
+  font-size: 15px;
+}
 
-  .navProblems{
-    text-decoration: none;
-    color: white;
-    margin-left: 30px;
-    margin-right: 15px;
-    align-self: center;
-  }
+a {
+  text-decoration: none;
+}
 
-  .navSubmissions{
-    text-decoration: none;
-    color: white;
-    margin-left: 30px;
-    margin-right: 15px;
-    align-self: center;
-  }
+li {
+  list-style: none;
+}
 
-  .ide{
-    text-decoration: none;
-    color: white;
-    margin-left: 30px;
-    margin-right: 15px;
-    align-self: center;
-  }
+.main-nav {
+  width: 100%;
+  height: 6.5rem;
+  display: grid;
+  grid-template-columns: 5rem 1fr 2fr 5rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
 
-  .user-dropdown{
-    text-decoration: none;
-    color: white;
-    margin-left: 30px;
-    margin-right: 15px;
-    align-self: center;
-  }
+.logo {
+  display: grid;
+  /* background-color: #3b5998; */
+  grid-column: 2/3;
+  justify-content: start;
+  align-items: center;
+}
+
+.menu-links {
+  grid-column: 3/4;
+}
+
+.menu-links ul {
+  height: 6.5rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.menu-links ul li {
+  font-size: 15px;
+}
+
+.menu-links ul li a {
+  text-transform: capitalize;
+  color: rgba(0, 0, 3, 0.8);
+  transition: 0.5s;
+}
+.menu-links ul li:hover > a {
+  transform-origin: left;
+  color: rgba(0, 0, 3, 1);
+  text-decoration: underline;
+  transition: 0.5s;
+}
+
+.home {
+  text-decoration: none;
+  color: white;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: bold;
+  margin-left: 30px;
+  margin-right: 15px;
+  align-self: center;
+}
+
+.navProblems {
+  text-decoration: none;
+  color: white;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: bold;
+  margin-left: 30px;
+  margin-right: 15px;
+  align-self: center;
+}
+
+.navSubmissions {
+  text-decoration: none;
+  color: white;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: bold;
+  margin-left: 30px;
+  margin-right: 15px;
+  align-self: center;
+}
+
+.ide {
+  text-decoration: none;
+  color: white;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: bold;
+  margin-left: 30px;
+  margin-right: 15px;
+  align-self: center;
+}
+
+.user-dropdown {
+  text-decoration: none;
+  color: white;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: bold;
+  margin-left: 30px;
+  margin-right: 15px;
+  align-self: center;
+}
+
+.home:hover,
+.navProblems:hover,
+.navSubmissions:hover,
+.ide:hover,
+.user:hover {
+    color: #000; /* Change the text color to black when the link is hovered */
+}
+
+.form-control::placeholder {
+  color: white; /* Set the placeholder text color to white */
+}
+.form-control:focus-visible {
+  color: white; /* Set the placeholder text color to white when the input is focused */
+}
+
+/* ////////////////////////////////////////////////////////// */
+
+.navbar {
+  height: 10%;
+  float: inherit;
+  flex-direction: column;
+}
+
+.navbar-logo {
+  width: 200px;
+}
+
+.navbar-brand {
+  font-size: 27px;
+  flex-direction: column;
+}
+
+.nav-dropdown {
+  padding-right: 100px;
+}
+
+.main-wrapper {
+  padding: 10px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+}
+
+.main-content {
+  flex-grow: 1;
+  box-sizing: border-box;
+  display: flex;
+}
+
+.statement {
+  flex-grow: 1;
+}
+
+.editor {
+  flex-grow: 1;
+}

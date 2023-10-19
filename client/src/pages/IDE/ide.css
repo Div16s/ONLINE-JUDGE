@@ -102,6 +102,7 @@
   /* Home.css */
 /* ide.css */
 .editor {
+  min-height: 100vh;
   text-align: center;
   padding: 20px;
   width: 100%;
@@ -109,7 +110,8 @@
 
 .heading {
   color: #7c7c7c;
-  font-size: 24px;
+  font-size: 50px;
+  font-family: "IBM Plex Mono, monospace";
   margin-bottom: 10px;
 }
 
@@ -132,7 +134,7 @@
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
-  background-color: #0c0c0c;
+  background-color: #313030;
   color: white;
   font-family: 'Courier New', monospace;
   font-size: 14px;
@@ -143,64 +145,72 @@
   text-align: left;
 }
 
-.button {
-  padding: 10px 20px;
-  background-color: #4caf50;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  margin-left: 94%;
+.input-heading {
+  background-color: #333;
+  color: #ccc;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  padding: 3px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .inputArea {
   width: 100%;
   border: 1px solid #ccc;
-  background-color: #f5f5f5;
-  font-family: 'Courier New', monospace;
+  background-color: antiquewhite;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 14px;
   font-weight: bold;
   line-height: 1.5;
-  resize: none;
-  direction: ltr;
-  text-align: left;
-}
-
-.input-heading {
-  background-color: #333;
-  color: #ccc;
-  font-family: 'Courier New';
-  padding: 3px;
-  margin-top: 0;
-}
-
-.outputArea {
-  margin-top: 5px;
-  width: 750px;
-  border: 1px solid #ccc;
-  background-color: #f5f5f5;
-  font-family: 'Courier New', monospace;
-  font-size: 14px;
-  line-height: 1.5;
+  margin-top: 1.5px;
   resize: none;
   direction: ltr;
   text-align: left;
 }
 
 .output-heading {
+  margin-top: 2px;
+  height: 30px;
   background-color: #333;
   color: #ccc;
-  font-family: 'Courier New';
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   padding: 3px;
-  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.outputArea {
+  margin-top: 1px;
+  width: 727px;
+  height: 158px;
+  border: 1px solid #ccc;
+  background-color: antiquewhite;
+  color: rgb(44, 135, 44);
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 1.5;
+  resize: none;
+  direction: ltr;
+  text-align: left;
 }
 
 .outputContainer {
-  color: green;
+  color: rgb(46, 166, 46);
   font-family: 'Courier New', monospace;
   font-weight: bolder;
   font-size: 14px;
   line-height: 1.5;
-  margin-top: 18.1%;
+  /* margin-top: 18.1%; */
   width: 100%;
 }
+
+.button {
+  padding: 10px 20px;
+  color: #fff;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
 

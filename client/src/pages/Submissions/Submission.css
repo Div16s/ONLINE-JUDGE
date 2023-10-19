@@ -1,0 +1,70 @@
+.submission-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.heading {
+  color: antiquewhite;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.problems-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.card {
+    margin: 5px;
+    /* margin-right: 10px; */
+    /* margin-left: 10px; */
+    padding: 10px;
+    background-color: whitesmoke;
+    width: 98%;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.submission-accordion{
+    padding-right: 5px;
+    align-items: center;
+}
+
+.submission-card {
+  margin-bottom: 10px;
+}
+
+.submission-card-header {
+  color: rgb(202,205,201);
+  padding: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.submission-card-body {
+  padding: 20px;
+  background-color: antiquewhite;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+code {
+  
+  font-size: 14px;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  display: block;
+  padding: 10px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+code.cpp {
+  color: #333;
+}

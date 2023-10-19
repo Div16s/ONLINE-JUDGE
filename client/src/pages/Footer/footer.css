@@ -1,0 +1,13 @@
+.Footer {
+    margin-top: auto; /* Push the footer to the bottom */
+    background-color: rgb(0, 187, 0); /* Change this to your preferred background color */
+    color: rgb(0, 0, 0);
+    border-top: 1.5px solid white;
+    padding: 3px;
+    text-align: center;
+    position:inherit;
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: bold;
+    bottom: 0; /* Position it at the bottom */
+    width: 100%; /* Make it full-width */
+  }
