@@ -94,4 +94,28 @@ To run CodeSphere locally, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Div16s/ONLINE-JUDGE
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd ONLINE-JUDGE
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+
+4. Set up a MongoDB database and update the connection string in the server configuration.
+
+5. Start the server:
+
+   ```bash
+   node server.js
+
+6. Start the client:
+
+   ```bash
+   npm start
+
+Feel free to contribute to the project by submitting bug reports, feature requests, or pull requests. Let's build a vibrant coding community on CodeSphere!
