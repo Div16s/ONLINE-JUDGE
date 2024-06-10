@@ -2,6 +2,7 @@ import React from 'react'
 import logo from './csfn-bg.png';
 import bg from './bg-image.jpg';
 import './landingPage.css';
+import { Button } from '@chakra-ui/react';
 
 export const landingPage = () => {
     return (

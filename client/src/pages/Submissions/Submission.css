@@ -2,10 +2,12 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: rgb(22, 22, 22);
 }
 .heading {
   color: antiquewhite;
   display: flex;
+  font-family: monospace;
   flex-direction: column;
   justify-content: center;
   text-align: center;

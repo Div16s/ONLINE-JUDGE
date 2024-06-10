@@ -1,50 +1,51 @@
 .landingPage {
-    max-height: 100vh;
-    padding-top: 4px;
-    padding-bottom: 110px;
-    background-image: url("https://wallpaperaccess.com/full/796843.png");
-    background-size: cover;  /* Cover the entire element without stretching */
-    background-repeat: no-repeat; /* Prevent image repetition */
-    background-attachment: fixed; /* Optional: Fixed background (for parallax effect) */
+  max-height: 100vh;
+  padding-top: 4px;
+  padding-bottom: 110px;
+  background-image: url("https://wallpaperaccess.com/full/796843.png");
+  background-size: cover; /* Cover the entire element without stretching */
+  background-repeat: no-repeat; /* Prevent image repetition */
+  background-attachment: fixed; /* Optional: Fixed background (for parallax effect) */
 }
-.landingPage-heading{
-    font-weight: bold;
-    font-family: "IBM Plex Mono", monospace;
-    /* background-color: black; */
+.landingPage-heading {
+  font-weight: bold;
+  font-family: "IBM Plex Mono", monospace;
+  /* background-color: black; */
 }
-.landingPage-h2{
-    background-color: black;
-    font-family: "IBM Plex Mono", monospace;
-} 
+.landingPage-h2 {
+  background-color: black;
+  font-family: "IBM Plex Mono", monospace;
+}
 
 .loginButton {
-    appearance: none;
-    outline: 0;
-    border: 0;
-    padding: 10px 15px;
-    color: #e6e6f9;
-    border-radius: 3px;
-    width: 130px;
-    font-size: 18px;
-    font-weight: bold;
-    font-family: "IBM Plex Mono", monospace;
-    margin-right: 10px;
-    transition: opacity 0.5s;
-  }
-  
-  .signupButton {
-    appearance: none;
-    outline: 0;
-    border: 0;
-    padding: 10px 15px;
-    color: #f4f4fe;
-    border-radius: 3px;
-    width: 130px;
-    font-size: 18px;
-    font-weight: bold;
-    font-family: "IBM Plex Mono", monospace;
-  }
+  appearance: none;
+  outline: 0;
+  border: 0;
+  padding: 10px 15px;
+  color: #e6e6f9;
+  border-radius: 3px;
+  width: 130px;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: "IBM Plex Mono", monospace;
+  margin-right: 10px;
+  transition: opacity 0.5s;
+}
 
-.landingPage-footer{
-    /* background-color: #212121; */
+.signupButton {
+  appearance: none;
+  outline: 0;
+  border: 0;
+  padding: 10px 15px;
+  color: #f4f4fe;
+  background-color: #00bb00;
+  border-radius: 3px;
+  width: 130px;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.signupButton:hover {
+  background-color: #00ab00; /* Change background color on hover */
 }

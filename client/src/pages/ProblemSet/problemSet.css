@@ -7,7 +7,9 @@
 .problemSet{
     display: flex;
     flex-direction: column;
+    background-color: gray.900;
     min-height: 100vh;
+    align-items: center;
 }
 
 .heading{
@@ -22,7 +24,7 @@
     align-self: center;
     list-style-type: none;
     width: 85%;
-    background-color: rgb(202, 205, 201);
+    background-color: rgb(41, 41, 40);
     border: 3px solid #4ec22b;
     padding: 0;
 }
@@ -49,9 +51,10 @@
     border-top: none;
     border-width: 1px;        
     font-weight: 400;
+    cursor: pointer;
 }
 
 .setProblem:hover{
-    background-color: white;    
+    background-color: rgb(24, 24, 24);    
     font-weight: 600;
 }

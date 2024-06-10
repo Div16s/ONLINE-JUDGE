@@ -2,9 +2,8 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ide.css';
-import { Navbar } from '../../Components/navbar';
 import { Container, Row, Col } from 'react-bootstrap';
-import Loading from '../../Components/Loading_output';
+import { Select, Button, Textarea } from '@chakra-ui/react';
 
 const starterCode = {
   c: "#include <stdio.h>\n\nint main() {\n    // Your C code here\n    return 0;\n}",
@@ -17,11 +16,10 @@ export const IDE = () => {
   const [code, setCode] = useState(starterCode.cpp);
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
-  const [textarea, setTextAreaValue] = useState(output);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [selectedLanguage, setSelectedLanguage] = useState('cpp'); // Default language is C++
-  //console.log(code);
+  const [loading, setLoading] = useState(true);
+  const [running, setRunning] = useState(false);
+  const [error, setError] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState('cpp'); 
 
   useEffect(() => {
     // Add event listener for the Tab key after the component has mounted
@@ -50,43 +48,46 @@ export const IDE = () => {
   }, []);
 
   const handleSubmit = async (e) => {
-
-    e.target.disabled = true;
-        setOutput("Running...");
-        const payload = {
-            language: selectedLanguage,
-            code,
-            input,
-        }
-
-        try {
-            setLoading(true);
-
-            const { data } = await axios.post('http://localhost:8000/ide', payload);
-            setOutput(data.output);
-            setLoading(false);
-            setError(null);
-            console.log(data);
-        }
-        catch (error) {
-            if (error.response && error.response.data && error.response.data.err && error.response.data.err.stderr) {
-                const msg = error.response.data.err.stderr;
-                const e = msg.split("error:")[1];
-                setOutput("Compilation or Run time Error:\n" + e);
-            } else {
-                setOutput("An error occurred. Please check your code and try again.");
-            }
-            setLoading(false);
-        }
-        e.target.disabled = false;
+    const payload = {
+      language: selectedLanguage,
+      code,
+      input,
+    }
+    setRunning(true);
+    setLoading(true);
+    try {
+      const { data } = await axios.post('http://localhost:8000/ide', payload);
+      setOutput(data.output);
+      console.log(data);
+    }
+    catch (error) {
+      console.log(error.response.data.err);
+      setOutput(error.response.data.err);
+    } finally {
+      setLoading(false);
+      setRunning(false);
+    }
   }
+
+  useEffect(() => {
+    if (output.stderr) {
+      const errorString = output.stderr;
+      // Define a regular expression to extract the human-readable error message
+      const errorRegex = /error: (.+)\n/;
+      // Extract the human-readable error message using the regular expression
+      const match = errorString.match(errorRegex);
+
+      // If a match is found, extract the error message from the match result
+      setError(match[1]);
+    }
+  }, [output,setError])
 
   return (
     <>
       <Container fluid className='editor'>
-        <h1 className='heading'>CodeSphere Online IDE</h1>
+        <h1 className='heading' style={{ fontFamily: "IBM Plex Mono, monospace" }}>CodeSphere Online IDE</h1>
 
-        <select className='selectBox'
+        <Select
           value={selectedLanguage}
           onChange={(e) => {
             setSelectedLanguage(e.target.value);
@@ -97,35 +98,51 @@ export const IDE = () => {
           <option value='cpp'>C++</option>
           <option value='java'>Java</option>
           <option value='py'>Python</option>
-        </select>
+        </Select>
         <br></br>
         <Row className='Row'>
           <Col md={8} className='Col'>
-            <textarea rows='20' cols='75' className='textarea lineNumber' id='myTextarea'
+            <Textarea backgroundColor={"gray.800"} rows='20' cols='75' className='textarea lineNumber' id='myTextarea'
               value={code}
               onChange={(e) => { setCode(e.target.value); }}
             >
-            </textarea>
+            </Textarea>
           </Col>
           <Col md={4} className='Col'>
             <Row className='Row'>
               <h5 className='input-heading'>CUSTOM INPUT</h5>
-              <textarea rows='10' cols='35' className='inputArea'
+              <Textarea rows='9' cols='30' className='inputArea'
                 value={input}
                 onChange={(e) => { setInput(e.target.value); }}
               >
 
-              </textarea>
+              </Textarea>
             </Row>
             <Row className='Row'>
               <h5 style={{ textAlign: 'center' }} className='output-heading'>OUTPUT</h5>
-              <p className='outputArea'>{output}</p>
+              <Textarea className='outputArea' rows={'10'} cols={'35'}>
+                {!loading && (
+                  <>
+                    {output.executionTime !== undefined && (
+                      <p>{output.executionTime} milliseconds</p>
+                    )}
+                    {output.stdout && (
+                      <p>{output.stdout}</p>
+                    )}
+                    {output.stderr && (
+                      <p style={{ color: 'red' }}>Error: {error}</p>
+                    )}
+                  </>
+                )}
+              </Textarea>
               {/* <p style={{backgroundColor:"white"}}>Execution time: {output.executionTime} ms</p> */}
             </Row>
           </Col>
         </Row>
 
-        <button className='btn btn-dark' style={{ marginRight: "95%", width: "100px", color:"#4ec22b", height: "40px" }} onClick={handleSubmit}>RUN</button>
+        <Button className='btn btn-dark' isLoading={running} style={{ marginTop: "10px", marginRight: "95%", width: "100px", color: "#4ec22b", height: "40px" }} onClick={handleSubmit}>
+          RUN
+        </Button>
 
       </Container>
 

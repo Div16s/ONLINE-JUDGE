@@ -1,16 +1,20 @@
-import React from 'react'
-import { Navbar } from '../../Components/navbar';
+import React, { useEffect } from 'react'
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { userAtom } from '../../atoms/userAtom';
+import { problemStatusAtom } from '../../atoms/problemStatusAtom';
+import { useShowToast } from '../../hooks/useShowToast';
 import './home.css';
-export const home = () => {
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
+export const Home = () => {
+  const user = useRecoilValue(userAtom);
   return (
     <div className='home-container'>
-      <div className='user-welcome'>
-        <h1 style={{fontFamily:'Montserrat'}}>Welcome back {userInfo.name} ...</h1>
-      </div>
       <div className='centered-text'>
-        <h1>"Unleash Your Code Wizardry in the CodeSphere"</h1>
-        <h2>"Where Ideas Become Functional Art"</h2>
+        <div className='home-page-text'>
+          <h1 style={{fontFamily:'Montserrat'}}>Welcome back {user.name} ...</h1>
+          <h1>"Unleash Your Code Wizardry in the CodeSphere"</h1>
+          <h2>"Where Ideas Become Functional Art"</h2>
+        </div>
       </div>
     </div>
   )

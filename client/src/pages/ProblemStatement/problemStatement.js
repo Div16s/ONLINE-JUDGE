@@ -3,7 +3,11 @@ import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 import './problemStatement.css';
-import { Navbar } from '../../Components/navbar';
+import { useRecoilValue } from 'recoil';
+import { problemStatusAtom } from '../../atoms/problemStatusAtom';
+import { Flex, Box, Select, Text, Heading, Button, Toggle, Textarea, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { FcCheckmark } from "react-icons/fc";
+import { MdOutlinePending } from "react-icons/md";
 
 const starterCode = {
     c: "#include <stdio.h>\n\nint main() {\n    // Your C code here\n    return 0;\n}",
@@ -12,35 +16,87 @@ const starterCode = {
     java: "public class Main {\n    public static void main(String[] args) {\n        // Your Java code here\n    }\n}",
 };
 
-export const ProblemStatement = () => {
+const ProblemDetails = ({ problem }) => {
+    const solvedProblems = useRecoilValue(problemStatusAtom);
+    const [isSolved, setIsSolved] = useState("Unattempted");
+
+    useEffect(() => {
+        const setProblemStatus = () => {
+            console.log("Problem Name: ", problem.problemName);
+            const curr_problem = solvedProblems.find((prob) => prob.problemName === problem.problemName);
+            if (curr_problem) {
+                if (curr_problem.status === "AC") {
+                    setIsSolved("Solved");
+                }
+                else if (curr_problem.status === "WA") {
+                    setIsSolved("Attempted");
+                }
+            }
+        }
+        setProblemStatus();
+    }, [problem.problemName, solvedProblems]);
+
+    return (
+        <Box p="4">
+            <Flex justifyContent="space-between" alignItems="center" mb="2">
+                <Flex direction="column">
+                    <Heading size="lg">{problem.problemName}</Heading>
+                    {isSolved === "Solved" && (
+                        <Flex direction={"row"} gap={1}>
+                            <Text>Solved</Text>
+                            <FcCheckmark />
+                        </Flex>
+                    )}
+                    {isSolved === "Attempted" && (
+                        <Flex direction={"row"} gap={1}>
+                            <Text>Attempted</Text>
+                            <Text mt={0.5}><MdOutlinePending color='yellow' /></Text>
+                        </Flex>
+                    )}
+                </Flex>
+                <Text color={
+                    problem?.problemDifficulty === 'Easy' ? 'green.400' :
+                        problem?.problemDifficulty === 'Medium' ? '#ccbb11' :
+                            problem?.problemDifficulty === 'Hard' ? 'red.400' : 'white'}
+                    p={2}
+                >
+                    <strong>{problem.problemDifficulty}</strong>
+                </Text>
+            </Flex>
+            <hr />
+            <Text mb="4">{problem.problemStatement}</Text>
+            <hr />
+            <Heading size="md" mb="2">Test Cases</Heading>
+            <hr />
+            {problem.example_testCases?.split('\n\n').map((testCase, index) => (
+                <Box key={index} mb="4">
+                    {testCase.split('\n').map((line, idx) => (
+                        <Text key={idx} mb="2">{line}</Text>
+                    ))}
+                </Box>
+            ))}
+            <hr />
+            <Text mb="2"><strong>Constraints:</strong> 1 ≤ N ≤ 10^5</Text>
+        </Box>
+    );
+};
+
+const IdeSection = ({ problem }) => {
+    const [tabIndex, setTabIndex] = useState(0);
     const [code, setCode] = useState(starterCode.cpp);
     const [input, setInput] = useState('');
     const [output, setOutput] = useState('');
+    const [error, setError] = useState("");
     const [verdict, setVerdict] = useState('');
-    const [isSolved, setIsSolved] = useState(false);
-    //const [textarea, setTextAreaValue] = useState(output);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
     const [selectedLanguage, setSelectedLanguage] = useState('cpp'); // Default language is C++
-    const [problem, setProblem] = useState({});
+    const [running, setRunning] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     let { problemID } = useParams();
-    const [activeSegment, setActiveSegment] = useState('Input');
-    const [textAreaValue, setTextAreaValue] = useState('');
-
-    const handleSegmentClick = (segment) => {
-        setActiveSegment(segment);
-    };
-
-    // Get the textarea element by its ID
-    const textarea = document.getElementById('myTextarea');
-
-    const getUserSubmissionStatus = (problemId, userId) => {
-        
-    };
 
     useEffect(() => {
         // Add event listener for the Tab key after the component has mounted
-        const textarea = document.getElementById('myTextarea');
+        const textarea = document.getElementById('codeArea');
 
         const handleTabKey = (e) => {
             if (e.key === 'Tab') {
@@ -64,12 +120,137 @@ export const ProblemStatement = () => {
         };
     }, []);
 
+    const handleTabChange = (index) => {
+        setTabIndex(index);
+    };
 
+    const handleRun = async (e) => {
+        e.target.disabled = true;
+        const payload = {
+            language: selectedLanguage,
+            code,
+            input,
+        }
+        setRunning(true);
+        try {
+            const { data } = await axios.post('http://localhost:8000/ide', payload);
+            setOutput(data.output);
+            setError(null);
+            console.log(data);
+        }
+        catch (error) {
+            setOutput(error.response.data.err);
+        } finally {
+            setRunning(false);
+        }
+        e.target.disabled = false;
+    };
+
+    const handleSubmit = async () => {
+        setVerdict("Running...");
+        const payload = {
+            language: selectedLanguage,
+            code: code,
+            problem_id: problemID,
+            problem_name: problem.problemName,
+            email: userInfo.email,
+        };
+        setSubmitting(true);
+        try {
+            const { data } = await axios.post(
+                "http://localhost:8000/submit",
+                payload
+            );
+            const { accepted, total_cases } = data;
+            console.log("Accepted: ", accepted);
+            console.log("TotalCases: ", total_cases);
+            if (accepted === total_cases) {
+                setVerdict(
+                    `Verdict: Accepted\n\nDetails: ${accepted}/${total_cases} test cases passed`
+                );
+            } else {
+                setVerdict(`Verdict: Wrong Answer`);
+            }
+        }
+        catch (error) {
+            console.log(error);
+            setVerdict("Something wrong happened!");
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    useEffect(() => {
+        if (output.stderr) {
+            const errorString = output.stderr;
+            // Define a regular expression to extract the human-readable error message
+            const errorRegex = /error: (.+)\n/;
+            // Extract the human-readable error message using the regular expression
+            const match = errorString.match(errorRegex);
+
+            // If a match is found, extract the error message from the match result
+            setError(match[1]);
+        }
+    }, [output, setError])
+
+    return (
+        <Box p="4">
+            <Box mb="4" width="100%">
+                <Select placeholder="Select language" mb="2"
+                    value={selectedLanguage}
+                    onChange={(e) => {
+                        const shouldSwitch = window.confirm(
+                            "Are you sure you want to change the language? WARNING: Your current code will be lost."
+                        );
+                        if (shouldSwitch) {
+                            setSelectedLanguage(e.target.value);
+                        }
+
+                        setCode(starterCode[e.target.value]);
+                    }}
+                >
+                    <option value="c">C</option>
+                    <option value="cpp">C++</option>
+                    <option value="py">Python</option>
+                    <option value="java">Java</option>
+                </Select>
+                <Textarea id='codeArea' backgroundColor={"gray.800"} value={code} onChange={(e) => setCode(e.target.value)} rows="16" cols="50" placeholder="Your code goes here..." style={{ width: "100%" }} />
+            </Box>
+            <Box p="4">
+                <Tabs index={tabIndex} onChange={handleTabChange}>
+                    <TabList>
+                        <Tab>Custom Input</Tab>
+                        <Tab>Output</Tab>
+                        <Tab>Verdict</Tab>
+                    </TabList>
+                    <TabPanels>
+                        <TabPanel>
+                            <Textarea value={input} onChange={(e) => setInput(e.target.value)} rows="5" cols="50" placeholder="Custom Input" />
+                        </TabPanel>
+                        <TabPanel>
+                            <Textarea rows="5" cols="50" value={error ? error : output.stdout} placeholder="Output" readOnly />
+                        </TabPanel>
+                        <TabPanel>
+                            <Textarea rows="5" cols="50" value={verdict} placeholder="Verdict" readOnly />
+                        </TabPanel>
+                    </TabPanels>
+                </Tabs>
+            </Box>
+            <Flex justify="flex-end" gap={2}>
+                <Button isLoading={running} backgroundColor={"blue.500"} _hover={{ "backgroundColor": "blue.600" }} onClick={handleRun}>Run</Button>
+                <Button isLoading={submitting} backgroundColor={"green.400"} _hover={{ "backgroundColor": "green.500" }} onClick={handleSubmit}>Submit</Button>
+            </Flex>
+        </Box>
+    );
+};
+
+export const ProblemStatement = () => {
+    const [problem, setProblem] = useState({});
+    let { problemID } = useParams();
 
     useEffect(() => {
         const fetchProblem = async () => {
             try {
-                console.log();
                 const response = await axios.get(`http://localhost:8000/problemStatement/${problemID}`);
                 setProblem(response.data);
                 console.log("Problem statement fetched!!");
@@ -81,198 +262,14 @@ export const ProblemStatement = () => {
         fetchProblem();
     }, [problemID]);
 
-    const handleRun = async (e) => {
-        e.target.disabled = true;
-        setOutput("Running...");
-        const payload = {
-            language: selectedLanguage,
-            code,
-            input,
-        }
-
-        try {
-            setLoading(true);
-
-            const { data } = await axios.post('http://localhost:8000/ide', payload);
-            setOutput(data.output);
-            setLoading(false);
-            setError(null);
-            console.log(data);
-        }
-        catch (error) {
-            if (error.response && error.response.data && error.response.data.err && error.response.data.err.stderr) {
-                const msg = error.response.data.err.stderr;
-                const e = msg.split("error:")[1];
-                setOutput("Compilation or Run time Error:\n" + e);
-            } else {
-                setOutput("An error occurred. Please check your code and try again.");
-            }
-            setLoading(false);
-        }
-        e.target.disabled = false;
-    }
-
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    //console.log(userInfo.email);
-    const handleSubmit = async (e) => {
-        e.target.disabled = true;
-        setVerdict("Running...");
-        // console.log(selectedLanguage);
-        // console.log(code);
-        // console.log(problemID);
-        // console.log(problem.problemName);
-        // console.log(userInfo.email);
-        const payload = {
-            language: selectedLanguage,
-            code: code,
-            problem_id: problemID,
-            problem_name: problem.problemName,
-            email: userInfo.email,
-        };
-        try {
-            const { data } = await axios.post(
-                "http://localhost:8000/submit",
-                payload
-            );
-            const { accepted, total_cases } = data;
-            console.log("Accepted: ", accepted);
-            console.log("TotalCases: ", total_cases);
-            if (accepted === total_cases) {
-                setVerdict(
-                    `Verdict: Accepted\nDetails: ${accepted}/${total_cases} test cases passed`
-                );
-            } else {
-                setVerdict(`Verdict: Wrong Answer`);
-            }
-        }
-        catch (error) {
-            console.log(error);
-            setVerdict("Something wrong happened!");
-        }
-        e.target.disabled = false;
-    }
-
     return (
-        <>
-            <div className='container'>
-                <div className="card Problem">
-                    <div className='card-header'>
-                        <div className="left-content">
-                            <h2 className="ProblemName" style={{
-                                fontFamily: "IBM Plex Mono, monospace"
-                            }}>{problem?.problemName}
-                            </h2>
-                            {getUserSubmissionStatus(problem.problemID,userInfo._id)}
-                            <h5 style={{ fontFamily: "IBM Plex Mono, monospace" }}>
-                                { isSolved === true ? "Solved✅" :
-                                    isSolved === false ? "Attempted🧑‍🔧" : ""}
-                            </h5>
-                        </div>
-                        <div className="right-content">
-                            <h5 style={{
-                                fontFamily: "IBM Plex Mono, monospace",
-                                fontWeight: "Bold",
-                                color:
-                                    problem?.problemDifficulty === 'Easy' ? 'green' :
-                                        problem?.problemDifficulty === 'Medium' ? '#ccbb11' :
-                                            problem?.problemDifficulty === 'Hard' ? 'red' : 'white',
-
-                            }}>{problem?.problemDifficulty}</h5>
-                        </div>
-                    </div>
-
-                    <div className='card-body'>
-                        {/* <div className="ProblemStatement">{problem?.problemStatement}</div>
-                        <div className='ProblemStatement'>{problem?.example_testCases}</div> */}
-                        <div className="problem-section">
-                            <h3>Problem Statement</h3>
-                            <hr />
-                            <div className="ProblemStatement">{problem?.problemStatement}</div>
-                        </div>
-                        <hr />
-                        <div className="problem-section">
-                            <h3>Test Cases</h3>
-                            <hr />
-                            {/* <div className="ProblemStatement">{problem?.example_testCases}</div> */}
-                            <div className="test-case-examples" dangerouslySetInnerHTML={{ __html: problem?.example_testCases ? problem.example_testCases.replace() : '' }}></div>
-
-                        </div>
-                    </div>
-                </div>
-                <div className='card editor'>
-                    {/* <p className='language'><strong>LANGUAGE</strong></p> */}
-                    <select
-                        className='ps-selectBox'
-                        value={selectedLanguage}
-                        onChange={(e) => {
-                            const shouldSwitch = window.confirm(
-                                "Are you sure you want to change the language? WARNING: Your current code will be lost."
-                            );
-                            if (shouldSwitch) {
-                                setSelectedLanguage(e.target.value);
-                            }
-
-                            setCode(starterCode[e.target.value]);
-                        }}
-                    >
-                        <option value='c'>C</option>
-                        <option value='cpp'>C++</option>
-                        <option value='java'>Java</option>
-                        <option value='py'>Python</option>
-                    </select>
-                    <br />
-                    <textarea className='textarea' rows={20} col={10} id="myTextarea"
-                        value={code}
-                        onChange={(e) => { setCode(e.target.value); }}
-                    ></textarea>
-                    <br />
-                    <div className='row'>
-                        <button className={`col-2 btn btn-primary ${activeSegment === 'Input' ? ' active' : ''}`}
-                            style={{ marginRight: '6px', marginLeft: "10px" }}
-                            onClick={() => handleSegmentClick('Input')}
-                        >
-                            Input
-                        </button>
-                        <button className={`col-2 btn btn-primary${activeSegment === 'Output' ? ' active' : ''}`}
-                            style={{ marginRight: '6px' }}
-                            onClick={() => handleSegmentClick('Output')}
-                        >
-                            Output
-                        </button>
-                        <button className={`col-2 btn btn-primary${activeSegment === 'Verdict' ? ' active' : ''}`}
-                            onClick={() => handleSegmentClick('Verdict')}
-                        >
-                            Verdict
-                        </button>
-                    </div>
-
-                    <textarea rows={4} col={40} className='inputArea' id='myTextarea'
-                        value={input}
-                        onChange={(e) => { setInput(e.target.value); }}
-                        style={{ display: activeSegment === 'Input' ? 'block' : 'none' }}
-                    ></textarea>
-
-                    {activeSegment === 'Output' && (
-                        <div className='OutputArea'>
-                            <p className='OutputContainer' dangerouslySetInnerHTML={{ __html: output.replace(/\n/g, "<br />") }} />
-                            {/* <p className='OutputContainer'>{output}</p> */}
-                        </div>
-
-                    )}
-
-                    {activeSegment === 'Verdict' && (
-                        <div className='verdictBox'>
-                            <p className='verdictContainer'>{verdict}</p>
-                        </div>
-                    )}
-
-                    <div className='row'>
-                        <button className='col-2  btn btn-dark' style={{ fontFamily: "IBM Plex Mono, monospace", marginLeft: "10px", marginRight: "5px", width: "150px", height: "40px", color: "#4ec22b" }} onClick={handleRun}>Run</button>
-                        <button className='col-2  btn btn-dark' style={{ fontFamily: "IBM Plex Mono, monospace", width: "150px", height: "40px", color: "#4ec22b" }} onClick={handleSubmit}>Submit</button>
-                    </div>
-
-                </div>
-            </div >
-        </>
+        <Flex>
+            <Box w="50%" h={"100vh"} borderRight="1px solid #ccc">
+                <ProblemDetails problem={problem} />
+            </Box>
+            <Box w="50%" h={"100vh"}>
+                <IdeSection problem={problem} />
+            </Box>
+        </Flex>
     )
 }

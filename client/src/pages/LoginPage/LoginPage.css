@@ -28,6 +28,12 @@
 /* Style the form labels */
 .label {
   font-weight: bold;
+  color: #000000;
+}
+
+.forget-pass {
+  color: #f72112;
+  text-decoration: none;
 }
 
 /* Style the form inputs */
@@ -59,13 +65,6 @@ input[type="password"] {
 .login-signup-button:hover {
   background-color: #000000; /* Change background color on hover */
   color: #00bb00; /* Change text color on hover */
-}
-
-/* Style the error message */
-.error-message {
-  color: red;
-  margin-top: 10px;
-  text-align: center;
 }
 
 /* Style the "New User?" link */

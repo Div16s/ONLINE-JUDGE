@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const problemSetRouter = require('./routes/problemSetRoute.js');
 const problemStatementRouter = require('./routes/problemStatementRoute.js');
@@ -13,14 +12,24 @@ const { runCPPCodeInDocker } = require('./executeCodeInDocker.js');
 const submission_router = require('./routes/submissionRoute.js');
 const code_submission_router = require('./routes/submitRoute.js');
 const ideController = require('./controller/ideController.js');
+const cloudinary = require('cloudinary').v2;
+
 const app = express();
+
+DBConnection();
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+})
 
 //middleWares
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.json({limit:"50mb"})); //To parse JSON data in the req.body
 
-
+//Routers
 app.use("/", userRouter)
 app.use("/problems", problemSetRouter);
 app.use("/problemStatement", problemStatementRouter);
@@ -37,19 +46,18 @@ app.post('/ide', async (req, res) => {
 
         //adding function for supporting multiple languages
         let output,filePath;
-        // console.log(language);
-        // console.log(input);
 
         switch (language) {
             case 'c':
-                // filePath = await generateFile('c', code);
-                // output = await executeC(filePath);
-                output = await runCPPCodeInDocker(code,'c');
+                filePath = await generateFile('c', code);
+                output = await executeC(filePath);
+                //output = await runCPPCodeInDocker(code,'c');
                 break;
             case 'cpp':
-                // filePath = await generateFile('cpp', code);
-                // output = await executeCpp(filePath);
-                output = await runCPPCodeInDocker(code,'cpp',input);
+                filePath = await generateFile('cpp', code);
+                output = await executeCpp(filePath);
+                //output = await runCPPCodeInDocker(code,'cpp',input);
+                //console.log("Docker output: ",output);
                 break;
             case 'py':
                 filePath = await generateFile('py', code);
@@ -59,24 +67,21 @@ app.post('/ide', async (req, res) => {
                 filePath = await generateFile('java', code);
                 output = await executeJava(filePath);
                 break;
-            // Add more cases for other languages as needed
             default:
-                return res.status(400).json({ success: false, error: "Unsupported language!" });
+                return res.status(400).json({ err: "Unsupported language!" });
         }
 
         const inputfile = await generateInput(input);
-        //const filePath = await generateFile(language, code);
-        // const output = await executeCpp(filePath);
         res.json({ filePath, output, inputfile });
         console.log("Output: ",output);
     }
     catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, error: "Internal Server Error, Yahan se jaa raha hao" });
+        res.status(500).json({ 
+            err: error
+        });
+        console.log("Error in ideController: ", error);
     }
 })
-
-DBConnection();
 
 app.use(notFound);
 app.use(errorHandler);

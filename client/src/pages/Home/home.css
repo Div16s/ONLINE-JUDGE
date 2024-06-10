@@ -4,6 +4,10 @@
   .home-container{
     background-color: rgb(23, 23, 23);
     min-height: 100vh;
+    margin-top: 0;
+    background-image: url("");
+    background-repeat: no-repeat;
+    background-size: cover; /* Optional: Adjusts the background image size to cover the entire container */
   }
   .centered-text {
     display: flex;
@@ -11,8 +15,6 @@
     text-align: center;
     color: rgb(185, 180, 180);
     font-weight: lighter;
-    margin-top: 3%;
-
   }
 
   .user-welcome{
@@ -20,6 +22,18 @@
     flex-direction: column;
     text-align: center;
     color: aliceblue;
-    margin-top: 10%;
     font-weight: light;
+  }
+
+  .home-page-text{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 100;
+    color: rgb(185, 180, 180);
+    margin-top: 40px;
   }

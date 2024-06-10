@@ -8,7 +8,7 @@ const fs = require('fs');
 const outputPath = path.join(__dirname, "codes");
 
 const executeC = async (filepath) => {
-  const jobId = path.basename(filepath).split(".")[0];;
+  const jobId = path.basename(filepath).split(".")[0];
   const outPath = path.join(outputPath, `${jobId}.out`);
 
   return new Promise((resolve, reject) => {
@@ -17,7 +17,7 @@ const executeC = async (filepath) => {
       `gcc "${filepath}" -o "${outPath}" && cd "${outputPath}" && .\\${jobId}.out < input.txt`,
       (error, stdout, stderr) => {
         const endTime = performance.now(); // Stop measuring time
-        const executionTime = endTime - startTime; // Calculate execution time in milliseconds
+        const executionTime = Math.round(endTime - startTime); // Calculate execution time in milliseconds
         if (error) {
           reject({ error, stderr, executionTime});
         }
@@ -40,7 +40,7 @@ const executeCpp = (filepath) => {
       `g++ "${filepath}" -o "${outPath}" && cd "${outputPath}" && .\\${jobId}.exe < input.txt`,
       (error, stdout, stderr) => {
         const endTime = performance.now(); // Stop measuring time
-        const executionTime = endTime - startTime; // Calculate execution time in milliseconds
+        const executionTime = Math.round(endTime - startTime); // Calculate execution time in milliseconds
         if (error) {
           reject({ error, stderr, executionTime });
         }
@@ -62,7 +62,7 @@ const executePython = async (filepath) => {
     // Execute the Python script with input and display output in the terminal
     exec(`python "${filepath}" `, (error, stdout, stderr) => {
       const endTime = performance.now(); // Stop measuring time
-      const executionTime = endTime - startTime; // Calculate execution time in milliseconds
+      const executionTime = Math.round(endTime - startTime); // Calculate execution time in milliseconds
       if (error) {
         reject({ error, stderr, executionTime });
       }
