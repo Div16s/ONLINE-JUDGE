@@ -9,6 +9,7 @@ import { Flex, Box, Select, Text, Heading, Button, Toggle, Textarea, Tab, TabLis
 import { FcCheckmark } from "react-icons/fc";
 import { MdOutlinePending } from "react-icons/md";
 
+
 const starterCode = {
     c: "#include <stdio.h>\n\nint main() {\n    // Your C code here\n    return 0;\n}",
     cpp: "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    // Your C++ code here\n    return 0;\n}",
@@ -23,15 +24,16 @@ const ProblemDetails = ({ problem }) => {
     useEffect(() => {
         const setProblemStatus = () => {
             console.log("Problem Name: ", problem.problemName);
-            const curr_problem = solvedProblems.find((prob) => prob.problemName === problem.problemName);
-            if (curr_problem) {
-                if (curr_problem.status === "AC") {
-                    setIsSolved("Solved");
+            {solvedProblems && solvedProblems.map((solvedProblem) => {
+                if (solvedProblem.problemName === problem.problemName) {
+                    if (solvedProblem.status === "AC") {
+                        setIsSolved("Solved");
+                    }
+                    else if (solvedProblem.status === "WA") {
+                        setIsSolved("Attempted");
+                    }
                 }
-                else if (curr_problem.status === "WA") {
-                    setIsSolved("Attempted");
-                }
-            }
+            })}
         }
         setProblemStatus();
     }, [problem.problemName, solvedProblems]);
@@ -86,7 +88,7 @@ const IdeSection = ({ problem }) => {
     const [code, setCode] = useState(starterCode.cpp);
     const [input, setInput] = useState('');
     const [output, setOutput] = useState('');
-    const [error, setError] = useState("");
+    const [error, setError] = useState('');
     const [verdict, setVerdict] = useState('');
     const [selectedLanguage, setSelectedLanguage] = useState('cpp'); // Default language is C++
     const [running, setRunning] = useState(false);
@@ -132,14 +134,19 @@ const IdeSection = ({ problem }) => {
             input,
         }
         setRunning(true);
+        setOutput('');
+        setError('');
         try {
             const { data } = await axios.post('http://localhost:8000/ide', payload);
-            setOutput(data.output);
-            setError(null);
-            console.log(data);
+            const fetchedOutput  = data.output;
+            console.log("Fetched Output: ", fetchedOutput);
+            if(fetchedOutput.includes("Success:")){
+                setOutput(fetchedOutput);
+            }
+            else setError(fetchedOutput);
         }
         catch (error) {
-            setOutput(error.response.data.err);
+            setError(error.response);
         } finally {
             setRunning(false);
         }
@@ -165,33 +172,17 @@ const IdeSection = ({ problem }) => {
             console.log("Accepted: ", accepted);
             console.log("TotalCases: ", total_cases);
             if (accepted === total_cases) {
-                setVerdict(
-                    `Verdict: Accepted\n\nDetails: ${accepted}/${total_cases} test cases passed`
-                );
+                setVerdict(`Verdict: Accepted\n\nDetails: ${accepted}/${total_cases} test cases passed`);
             } else {
-                setVerdict(`Verdict: Wrong Answer`);
+                setVerdict(`Verdict: Wrong Answer\n\nDetails: ${accepted}/${total_cases} test cases passed`);
             }
         }
         catch (error) {
-            console.log(error);
             setVerdict("Something wrong happened!");
         } finally {
             setSubmitting(false);
         }
     };
-
-    useEffect(() => {
-        if (output.stderr) {
-            const errorString = output.stderr;
-            // Define a regular expression to extract the human-readable error message
-            const errorRegex = /error: (.+)\n/;
-            // Extract the human-readable error message using the regular expression
-            const match = errorString.match(errorRegex);
-
-            // If a match is found, extract the error message from the match result
-            setError(match[1]);
-        }
-    }, [output, setError])
 
     return (
         <Box p="4">
@@ -214,7 +205,7 @@ const IdeSection = ({ problem }) => {
                     <option value="py">Python</option>
                     <option value="java">Java</option>
                 </Select>
-                <Textarea id='codeArea' backgroundColor={"gray.800"} value={code} onChange={(e) => setCode(e.target.value)} rows="16" cols="50" placeholder="Your code goes here..." style={{ width: "100%" }} />
+                <Textarea id='codeArea' letterSpacing={"inherit"} backgroundColor={"gray.800"} value={code} onChange={(e) => setCode(e.target.value)} rows="16" cols="50" placeholder="Your code goes here..." style={{ width: "100%" }} />
             </Box>
             <Box p="4">
                 <Tabs index={tabIndex} onChange={handleTabChange}>
@@ -228,7 +219,11 @@ const IdeSection = ({ problem }) => {
                             <Textarea value={input} onChange={(e) => setInput(e.target.value)} rows="5" cols="50" placeholder="Custom Input" />
                         </TabPanel>
                         <TabPanel>
-                            <Textarea rows="5" cols="50" value={error ? error : output.stdout} placeholder="Output" readOnly />
+                            {running ? <Textarea rows="5" cols="50" color={"blue.500"} fontWeight={"bold"} value="Running..." readOnly /> 
+                                    : output.length>0 ? <Textarea rows="5" cols="50" color={"green.400"} fontFamily={"monospace"} fontWeight={"bold"} value={output} readOnly /> 
+                                    : error.length>0 ? <Textarea rows="5" cols="50" color={"red.500"} fontFamily={"monospace"} fontWeight={"bold"} value={error} readOnly /> 
+                                    : <Textarea rows="5" cols="50" value="Output will be displayed here" readOnly />
+                            }
                         </TabPanel>
                         <TabPanel>
                             <Textarea rows="5" cols="50" value={verdict} placeholder="Verdict" readOnly />

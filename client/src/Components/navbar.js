@@ -60,7 +60,7 @@ export const Navbar = ({setSearch}) => {
                                     {userInfo && userInfo.name}
                                 </Link>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="/myProfile" style={{fontFamily: "IBM Plex Mono, monospace",fontWeight:"bold"}}>My Profile</a></li>
+                                    <li><Link class="dropdown-item" to="/myProfile" style={{fontFamily: "IBM Plex Mono, monospace",fontWeight:"bold"}}>My Profile</Link></li>
                                     <li><hr class="dropdown-divider" /></li>
                                     <li><button class="btn dropdown-item" style={{fontFamily: "IBM Plex Mono, monospace", fontWeight:"bold"}} onClick={logoutHandler}>LOGOUT➡️</button></li>
                                 </ul>
@@ -69,7 +69,6 @@ export const Navbar = ({setSearch}) => {
                     </div>
                 </div>
             </nav>
-
         </>
     )
 }

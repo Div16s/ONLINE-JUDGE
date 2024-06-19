@@ -2,7 +2,6 @@ const { Submission } = require("../models/submissions");
 
 async function getSubmissions(req, res) {
   const { email } = req.body;
-  //console.log(email);
   try {
     const problems = await Submission.find({
       User_email: email

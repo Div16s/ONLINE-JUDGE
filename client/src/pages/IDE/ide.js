@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ide.css';
 import { Container, Row, Col } from 'react-bootstrap';
-import { Select, Button, Textarea } from '@chakra-ui/react';
+import { Select, Button, Textarea, Text, Box, Heading, Flex, Tab, Tabs, TabPanel, TabPanels, TabList } from '@chakra-ui/react';
 
 const starterCode = {
   c: "#include <stdio.h>\n\nint main() {\n    // Your C code here\n    return 0;\n}",
@@ -18,7 +18,7 @@ export const IDE = () => {
   const [output, setOutput] = useState('');
   const [loading, setLoading] = useState(true);
   const [running, setRunning] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState('cpp'); 
 
   useEffect(() => {
@@ -53,39 +53,36 @@ export const IDE = () => {
       code,
       input,
     }
+
     setRunning(true);
     setLoading(true);
+    setOutput('');
+    setError('');
     try {
       const { data } = await axios.post('http://localhost:8000/ide', payload);
-      setOutput(data.output);
-      console.log(data);
+      const fetchedOutput = data.output;
+      if(fetchedOutput.includes("Output:")) {
+        setOutput(fetchedOutput.split("Output:")[1]);
+      } 
+      else {
+        setError(fetchedOutput);
+      }
     }
     catch (error) {
       console.log(error.response.data.err);
-      setOutput(error.response.data.err);
+      setError(error.response.data.err);
     } finally {
       setLoading(false);
       setRunning(false);
     }
   }
 
-  useEffect(() => {
-    if (output.stderr) {
-      const errorString = output.stderr;
-      // Define a regular expression to extract the human-readable error message
-      const errorRegex = /error: (.+)\n/;
-      // Extract the human-readable error message using the regular expression
-      const match = errorString.match(errorRegex);
-
-      // If a match is found, extract the error message from the match result
-      setError(match[1]);
-    }
-  }, [output,setError])
-
   return (
     <>
-      <Container fluid className='editor'>
-        <h1 className='heading' style={{ fontFamily: "IBM Plex Mono, monospace" }}>CodeSphere Online IDE</h1>
+    <Box p={4}>
+        <Heading as='h1' mb={6} fontFamily='IBM Plex Mono, monospace' textAlign={"center"}>
+          CodeSphere Online IDE
+        </Heading>
 
         <Select
           value={selectedLanguage}
@@ -93,58 +90,72 @@ export const IDE = () => {
             setSelectedLanguage(e.target.value);
             setCode(starterCode[e.target.value]);
           }}
+          mb={4}
         >
           <option value='c'>C</option>
           <option value='cpp'>C++</option>
           <option value='java'>Java</option>
           <option value='py'>Python</option>
         </Select>
-        <br></br>
-        <Row className='Row'>
-          <Col md={8} className='Col'>
-            <Textarea backgroundColor={"gray.800"} rows='20' cols='75' className='textarea lineNumber' id='myTextarea'
+
+        <Flex>
+          <Box flex="7" pr={4}>
+            <Textarea
+              bg='gray.800'
+              color='white'
+              rows='20'
               value={code}
+              id='myTextarea'
+              letterSpacing={"wide"}
               onChange={(e) => { setCode(e.target.value); }}
-            >
-            </Textarea>
-          </Col>
-          <Col md={4} className='Col'>
-            <Row className='Row'>
-              <h5 className='input-heading'>CUSTOM INPUT</h5>
-              <Textarea rows='9' cols='30' className='inputArea'
-                value={input}
-                onChange={(e) => { setInput(e.target.value); }}
-              >
+              height="100%"
+            />
+          </Box>
 
-              </Textarea>
-            </Row>
-            <Row className='Row'>
-              <h5 style={{ textAlign: 'center' }} className='output-heading'>OUTPUT</h5>
-              <Textarea className='outputArea' rows={'10'} cols={'35'}>
-                {!loading && (
-                  <>
-                    {output.executionTime !== undefined && (
-                      <p>{output.executionTime} milliseconds</p>
+          <Box flex="3">
+            <Tabs>
+              <TabList>
+                <Tab fontWeight={"bold"}>Custom Input</Tab>
+                <Tab fontWeight={"bold"}>Output</Tab>
+              </TabList>
+
+              <TabPanels>
+                <TabPanel>
+                  <Textarea
+                    rows={16}
+                    value={input}
+                    onChange={(e) => { setInput(e.target.value); }}
+                    height="100%"
+                  />
+                </TabPanel>
+                <TabPanel>
+                {!running ? (
+                  <Box h={360} border="1px" borderColor="gray.700" rounded="md" p={4}>
+                    {output.length > 0 && (
+                      <Text fontFamily={"monospace"} fontWeight={"bold"} color="green.400">{output}</Text>
                     )}
-                    {output.stdout && (
-                      <p>{output.stdout}</p>
+                    {error.length > 0 && (
+                      <Text color="red.500">{error}</Text>
                     )}
-                    {output.stderr && (
-                      <p style={{ color: 'red' }}>Error: {error}</p>
-                    )}
-                  </>
+                  </Box>
+                ) : (
+                  <Text mt={2} color="blue.500" fontSize={"medium"} fontWeight={"bold"}>Running...</Text>
                 )}
-              </Textarea>
-              {/* <p style={{backgroundColor:"white"}}>Execution time: {output.executionTime} ms</p> */}
-            </Row>
-          </Col>
-        </Row>
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          </Box>
+        </Flex>
 
-        <Button className='btn btn-dark' isLoading={running} style={{ marginTop: "10px", marginRight: "95%", width: "100px", color: "#4ec22b", height: "40px" }} onClick={handleSubmit}>
+        <Button
+          isLoading={running}
+          mt={4}
+          colorScheme='green'
+          onClick={handleSubmit}
+        >
           RUN
         </Button>
-
-      </Container>
+      </Box>
 
 
     </>

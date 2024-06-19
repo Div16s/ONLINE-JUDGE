@@ -52,7 +52,7 @@ export const SubmissionInfo = () => {
     };
 
     return (
-        <div style={{"height" : "100vh"}}>
+        <div style={{"min-height" : "100vh"}}>
             <Box m={4} mt={0} p="4" borderWidth="1px" borderRadius="md" pb={2}>
                 <Heading size="md" mb="2" color={"gray.100"}>{submission.Problem_name}</Heading>
                 <hr />

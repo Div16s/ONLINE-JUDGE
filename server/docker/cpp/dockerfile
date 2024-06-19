@@ -1,0 +1,14 @@
+# Use the official GCC image as a base
+FROM gcc:latest
+
+# Set working directory
+WORKDIR /app
+
+# Copy entrypoint script into the container
+COPY run_code.sh /app/run_code.sh
+
+# Make the entrypoint script executable
+RUN chmod +x /app/run_code.sh
+
+# Command to run the code
+CMD ["/app/run_code.sh"]

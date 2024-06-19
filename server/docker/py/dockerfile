@@ -1,0 +1,9 @@
+# docker/python/Dockerfile
+FROM python:3.9
+
+WORKDIR /app
+
+COPY run_code.sh /app
+RUN chmod +x /app/run_code.sh
+
+CMD ["/app/run_code.sh"]
