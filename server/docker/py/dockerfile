@@ -1,9 +1,20 @@
 # docker/python/Dockerfile
 FROM python:3.9
 
+# Working directory
 WORKDIR /app
 
-COPY run_code.sh /app
+# Copy code file into the container
+COPY code.py /app/code.py
+
+# Copy input file into the container
+COPY input.txt /app/input.txt
+
+# Copy entrypoint script into the container
+COPY run_code.sh /app/run_code.sh
+
+# Make the entrypoint script executable
 RUN chmod +x /app/run_code.sh
 
+# Run the entrypoint script
 CMD ["/app/run_code.sh"]

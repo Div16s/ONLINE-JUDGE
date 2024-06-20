@@ -2,13 +2,11 @@ const {executeCodeInDocker} = require('../docker/executeCodeInDocker.js');
 
 const ideController =  async (req, res) => {
     try {
-        const { language = 'cpp', code, input } = req.body;
-        if (code === undefined) {
-            return res.status(404).json({  
-                error: "Empty code body!" 
-            });
+        const { language, code, input } = req.body;
+        if (code === undefined || code === "") {
+            return res.status(404).json({ success: "false", error: "Empty code body!" });
         }
-    
+
         const output = await executeCodeInDocker(language, code, input);
 
         res.json({ output });
@@ -16,9 +14,9 @@ const ideController =  async (req, res) => {
     }
     catch (error) {
         res.status(500).json({ 
-            err: error.message
+            err: error
         });
-        console.log("Error in ideController: ", error.message);
+        console.log("Error in ideController: ", error);
     }
 }
 

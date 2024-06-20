@@ -4,6 +4,12 @@ FROM gcc:latest
 # Set the working directory inside the container
 WORKDIR /app
 
+# Copy code file into the container
+COPY code.c /app/code.c
+
+# Copy input file into the container
+COPY input.txt /app/input.txt
+
 # Copy the run_code.sh script into the container
 COPY run_code.sh /app/run_code.sh
 

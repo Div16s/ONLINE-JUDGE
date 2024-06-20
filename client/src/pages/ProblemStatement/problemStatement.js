@@ -137,7 +137,7 @@ const IdeSection = ({ problem }) => {
         setOutput('');
         setError('');
         try {
-            const { data } = await axios.post('http://localhost:8000/ide', payload);
+            const { data } = await axios.post('http://localhost:8000/api/ide/run', payload);
             const fetchedOutput  = data.output;
             console.log("Fetched Output: ", fetchedOutput);
             if(fetchedOutput.includes("Success:")){

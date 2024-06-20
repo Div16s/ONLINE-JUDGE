@@ -59,10 +59,10 @@ export const IDE = () => {
     setOutput('');
     setError('');
     try {
-      const { data } = await axios.post('http://localhost:8000/ide', payload);
+      const { data } = await axios.post('http://localhost:8000/api/ide/run', payload);
       const fetchedOutput = data.output;
-      if(fetchedOutput.includes("Output:")) {
-        setOutput(fetchedOutput.split("Output:")[1]);
+      if(fetchedOutput.includes("Success:")) {
+        setOutput(fetchedOutput);
       } 
       else {
         setError(fetchedOutput);
@@ -130,16 +130,16 @@ export const IDE = () => {
                 </TabPanel>
                 <TabPanel>
                 {!running ? (
-                  <Box h={360} border="1px" borderColor="gray.700" rounded="md" p={4}>
+                  <>
                     {output.length > 0 && (
-                      <Text fontFamily={"monospace"} fontWeight={"bold"} color="green.400">{output}</Text>
+                      <Textarea height="100%" rows={16} value={output} fontFamily={"monospace"} fontWeight={"bold"} color="green.400" />
                     )}
                     {error.length > 0 && (
-                      <Text color="red.500">{error}</Text>
+                      <Textarea height="100%" rows={16} color="red.500" value={error}/>
                     )}
-                  </Box>
+                  </>
                 ) : (
-                  <Text mt={2} color="blue.500" fontSize={"medium"} fontWeight={"bold"}>Running...</Text>
+                  <Text mt={2} color="blue.500" fontSize={"medium"} fontWeight={"semibold"}>Running...</Text>
                 )}
                 </TabPanel>
               </TabPanels>
