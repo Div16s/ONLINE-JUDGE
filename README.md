@@ -4,16 +4,10 @@ Welcome to CodeSphere, an online coding platform designed to enhance your coding
 
 ## Features
 
-### 1. User Authentication
+### 1. User Authentication & Management
 
-- Users can sign up by providing their email address and password.
-- Existing users can log in using their credentials.
-- JWT tokens are generated to manage user sessions securely.
-
-### 2. Home Page
-
-- Access the CodeSphere home page at `/home`.
-- A central hub for navigating through various features.
+- Secure Authentication: Users can register, login, and manage their profiles using JWT (JSON Web Token) for secure authentication, ensuring data integrity and preventing unauthorized access.
+- Profile Management: Users can edit their profiles, including uploading profile pictures using Cloudinary for cloud storage and efficient image management.
 
 ### 3. Problem Set Page
 
