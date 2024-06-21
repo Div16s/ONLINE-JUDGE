@@ -9,31 +9,35 @@ Welcome to CodeSphere, an online coding platform designed to enhance your coding
 - Secure Authentication: Users can register, login, and manage their profiles using JWT (JSON Web Token) for secure authentication, ensuring data integrity and preventing unauthorized access.
 - Profile Management: Users can edit their profiles, including uploading profile pictures using Cloudinary for cloud storage and efficient image management.
 
-### 3. Problem Set Page
+### 2. Problem Set Page
 
 - Explore all problems available on the platform at `/problems`.
-- View a list of problems along with their difficulty levels.
+- View a curated list of coding problems categorized by difficulty levels (easy, medium, hard).
 
-### 4. Problem Statement Page
+### 3. Problem Statement Page & Submission
 
 - Access the problem statement page for a specific problem at `/problemStatement/${problemId}`.
 - Read the problem description, constraints, and example test cases.
-- Code the problem and run/submit the solution.
+- Test the code with custom inputs and view the outputs immediately using input/output section.
+- Upon submission, the code is evaluated against predefined test cases, and users receive instant feedback (Accepted, Wrong Answer, etc.).
+- Comprehensive error messages and debugging information are provided to help users understand and fix issues in their code.
 
-### 5. Submissions Page
+### 4. Submissions Page
 
 - View all previous submissions at `/submissions`.
 - Each submission includes details such as language, code, submission date, and verdict.
 
-### 6. Online IDE
+### 5. Online IDE
 
 - Access the online Integrated Development Environment (IDE) at `/ide`.
-- Practice coding in a sandbox-like environment.
+- Practice coding in a sandbox-like environment, an integrated code editor supports writing and running code with real-time feedback on custom inputs.
 
-### 7. My Profile Page
+### 6. Secure and Scalable Code Execution Environment
 
-- View and update user details at `/myProfile`.
-- Access a personalized space for managing profile information.
+- Docker Integration: Code execution is managed within isolated Docker containers for security and resource management.
+- Multi-Language Support: The platform supports code execution in C, C++, and Python, with dedicated Docker containers for each language.
+- Docker-in-Docker Concept: The platform leverages the Docker-in-Docker (DinD) concept, allowing Docker containers to run inside main Docker container(backend application container). This ensures a secure, 
+  isolated, and scalable environment for executing user code.
 
 ## Supported Programming Languages
 
@@ -45,41 +49,39 @@ CodeSphere supports the following programming languages:
 
 ## Styling
 
-A mix of Bootstrap and simple CSS has been used for styling, ensuring a clean and responsive user interface.
+A mix of Chakra UI and simple CSS has been used for styling, ensuring a clean and responsive user interface.
 
 ## Endpoints
 
-1. **Home Page:**
-   - Endpoint: `/home`
-   - Description: CodeSphere home page, serving as a central hub for navigation.
-
-2. **Problem Set Page:**
+1. **Problem Set Page:**
    - Endpoint: `/problems`
    - Description: Displays all problems available on CodeSphere, including their difficulty levels.
 
-3. **Problem Statement Page:**
+2. **Problem Statement Page:**
    - Endpoint: `/problemStatement/${problemId}`
    - Description: Provides the problem statement, description, constraints, and example test cases. Allows users to code, run, and submit solutions.
 
-4. **Submissions Page:**
+3. **Submissions Page:**
    - Endpoint: `/submissions`
    - Description: Shows a list of all previous submissions, including details like language, code, submission date, and verdict.
 
-5. **Online IDE:**
+4. **Online IDE:**
    - Endpoint: `/ide`
    - Description: Accesses the online Integrated Development Environment (IDE) for practicing coding.
 
-6. **My Profile Page:**
+5. **My Profile Page:**
    - Endpoint: `/myProfile`
    - Description: Allows users to view and update their profile details.
 
 ## Technologies Used
 
-- **Frontend Styling:** Bootstrap CSS, CSS
+- **Frontend Styling:** Chakra UI, CSS
 - **Frontend:** React.js
 - **Backend:** Node.js, Express.js
 - **Database:** MongoDB
 - **Authentication:** JWT Tokens
+- **Cloud Services:** Cloudinary
+- **Containerization:** Docker
 
 ## Getting Started
 
