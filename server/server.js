@@ -24,7 +24,7 @@ cloudinary.config({
 //middleWares
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json({limit:"50mb"})); //To parse JSON data in the req.body
+app.use(express.json({limit:"50mb"}));
 
 //Routers
 app.use("/", userRouter)
@@ -33,27 +33,6 @@ app.use("/problemStatement", problemStatementRouter);
 app.use("/submissions",submission_router);
 app.use("/submit",code_submission_router);
 app.use("/api/ide", ideRouter);
-
-//ide route
-// app.post('/ide', async (req, res) => {
-//     try {
-//         const { language, code, input } = req.body;
-//         if (code === undefined) {
-//             return res.status(404).json({ success: "false", error: "Empty code body!" });
-//         }
-
-//         const output = await executeCodeInDocker(language, code, input);
-
-//         res.json({ output });
-//         console.log("Output of ide in server.js: ", output);
-//     }
-//     catch (error) {
-//         res.status(500).json({ 
-//             err: error
-//         });
-//         console.log("Error in ide in server.js: ", error);
-//     }
-// })
 
 app.use(notFound);
 app.use(errorHandler);
