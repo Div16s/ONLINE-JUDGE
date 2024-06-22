@@ -15,7 +15,7 @@ export const SubmissionInfo = () => {
     useEffect(() => {
         const getSubmission = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/submissions/${submission_id}`,{
+                const response = await fetch(`http://localhost:8000/api/submissions/${submission_id}`,{
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

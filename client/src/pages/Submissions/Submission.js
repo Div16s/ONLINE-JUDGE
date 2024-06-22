@@ -27,8 +27,7 @@ export const Submissions = () => {
         const getData = async () => {
             setLoadingSubmissions(true);
             try {
-                // const response = await axios.get("http://localhost:8000/submissions", config)
-                const response = await fetch("http://localhost:8000/submissions", {
+                const response = await fetch("http://localhost:8000/api/submissions", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -146,44 +145,4 @@ export const Submissions = () => {
             </Box>
         </>
     );
-}
-
-/* <div className="submission-container">
-                <h1 className="heading"> {handle}'s Submissions </h1>
-                <div className="submission-accordion">
-                    {data.length === 0 ? (
-                        <p>Solve at-least one problem.</p>
-                    ) : (data.map((item) => (
-
-                        <Accordion defaultActiveKey='1' flush>
-                            <Card key={item.id} style={{ marginRight: "10px", marginLeft: "10px" }}>
-                                <Card.Header style={{ display: "flex", background: "antiquewhite" }}>
-                                    <span style={{ color: 'black', textDecoration: 'none', flex: 1, cursor: PointerEvent, alignSelf: 'center', fontSize: 18 }}>
-                                        <CustomToggle Verdict={item.Verdict}>
-                                            {item.Problem_name}
-                                        </CustomToggle>
-
-                                    </span>
-                                </Card.Header>
-                                <Accordion.Collapse>
-                                    <Card.Body className="submission-card-body">
-                                        <p><strong>Language</strong>: {item.language}</p>
-                                        <h5 class="card-title"><strong>Code</strong></h5>
-                                        {/* <p>{item.code}</p>
-                                        <pre>
-                                            <code className="cpp">{item.code}</code>
-                                        </pre>
-                                        <p><strong>Verdict</strong>: <strong style={{ backgroundColor: (item.Verdict === "AC") ? "#0a0" : "#FF0000", color: "white", padding: "2px" }}>{item.Verdict}</strong></p>
-                                        <p><strong>Submitted at</strong>: {item.Submitted_At}</p>
-                                    </Card.Body >
-                                </Accordion.Collapse >
-
-                            </Card >
-                        </Accordion >
-
-                    ))
-                    )}
-
-                </div >
-
-            </div > */
+};

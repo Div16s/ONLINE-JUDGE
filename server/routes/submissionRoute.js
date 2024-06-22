@@ -3,8 +3,6 @@ const {getSubmissions, getSubmission} = require('../controller/submissionsContro
 const { protect } = require('../middlewares/authMiddleware.js');
 const submission_router = express.Router();
 
-// submission_router.route('/').get(protect, getSubmissions);
-
 submission_router.post('/', protect, getSubmissions);
 submission_router.get('/:submission_id', protect, getSubmission);
 

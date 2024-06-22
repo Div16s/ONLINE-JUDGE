@@ -1,14 +1,13 @@
 const express = require('express');
 const cors = require('cors');
+const DBConnection = require('./database/db.js');
+const userRouter = require('./routes/userRouter.js');
 const problemSetRouter = require('./routes/problemSetRoute.js');
 const problemStatementRouter = require('./routes/problemStatementRoute.js');
 const ideRouter = require('./routes/ideRoute.js');
-const userRouter = require('./routes/userRouter.js');
-const DBConnection = require('./database/db.js');
-const { notFound, errorHandler } = require('./middlewares/errorMiddleware.js');
-const { executeCodeInDocker } = require('./docker/executeCodeInDocker.js');
 const submission_router = require('./routes/submissionRoute.js');
 const code_submission_router = require('./routes/submitRoute.js');
+const { notFound, errorHandler } = require('./middlewares/errorMiddleware.js');
 const cloudinary = require('cloudinary').v2;
 
 const app = express();
@@ -27,11 +26,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json({limit:"50mb"}));
 
 //Routers
-app.use("/", userRouter)
-app.use("/problems", problemSetRouter);
-app.use("/problemStatement", problemStatementRouter);
-app.use("/submissions",submission_router);
-app.use("/submit",code_submission_router);
+app.use("/api/user", userRouter)
+app.use("/api/problems", problemSetRouter);
+app.use("/api/problemStatement", problemStatementRouter);
+app.use("/api/submissions",submission_router);
+app.use("/api/submit",code_submission_router);
 app.use("/api/ide", ideRouter);
 
 app.use(notFound);

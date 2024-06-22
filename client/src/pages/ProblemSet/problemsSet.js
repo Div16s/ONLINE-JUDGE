@@ -30,7 +30,7 @@ export const ProblemsSet = () => {
         const fetchProblemSet = async () => {
             setLoadingProblemSet(true);
             try {
-                const response = await fetch("http://localhost:8000/problems", {
+                const response = await fetch("http://localhost:8000/api/problems", {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

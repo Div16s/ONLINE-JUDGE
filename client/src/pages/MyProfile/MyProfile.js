@@ -34,7 +34,7 @@ export const UserProfileEdit = () => {
     setUpdating(true);
 
     try {
-      const res = await fetch(`http://localhost:8000/profile/${user._id}`, {
+      const res = await fetch(`http://localhost:8000/api/user/profile/${user._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

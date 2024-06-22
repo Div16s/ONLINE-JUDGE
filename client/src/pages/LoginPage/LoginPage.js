@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
-import axios from 'axios';
 import './LoginPage.css'
 import { useSetRecoilState } from 'recoil';
 import { userAtom } from '../../atoms/userAtom';
@@ -22,7 +21,7 @@ export const LoginPage = () => {
     if (loading) return;
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:8000/login", {
+      const res = await fetch("http://localhost:8000/api/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

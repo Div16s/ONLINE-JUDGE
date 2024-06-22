@@ -16,6 +16,7 @@ export const SignupPage = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const showToast = useShowToast();
+  
   const submitForm = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
@@ -25,7 +26,7 @@ export const SignupPage = () => {
     setLoading(true);
     try {
       //whenever we make an API request it takes json data, so we have to provide some headers
-      const res = await fetch("http://localhost:8000/signup",{
+      const res = await fetch("http://localhost:8000/api/user/signup",{
           method: "POST",
           headers: {
             "Content-Type": "application/json"

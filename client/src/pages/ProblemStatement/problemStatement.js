@@ -165,7 +165,7 @@ const IdeSection = ({ problem }) => {
         setSubmitting(true);
         try {
             const { data } = await axios.post(
-                "http://localhost:8000/submit",
+                "http://localhost:8000/api/submit",
                 payload
             );
             const { accepted, total_cases } = data;
