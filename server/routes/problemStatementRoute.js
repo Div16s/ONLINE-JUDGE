@@ -1,5 +1,5 @@
 const express =  require('express');
-const {ProblemStatementControl} =  require("../controller/problemStatement.js");
+const {ProblemStatementControl} =  require("../controllers/problemStatement.js");
 
 const problemStatementRouter=express.Router();
 

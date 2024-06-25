@@ -1,5 +1,5 @@
 const express =  require('express');
-const { problemSetControl }  =  require("../controller/problemSetController.js");
+const { problemSetControl }  =  require("../controllers/problemSetController.js");
 
 const problemSetRouter = express.Router();
 

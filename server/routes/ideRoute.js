@@ -1,5 +1,5 @@
 const express =  require('express');
-const ideController = require('../controller/ideController.js');
+const ideController = require('../controllers/ideController.js');
 const ideRouter = express.Router();
 
 ideRouter.route('/run').post(ideController);

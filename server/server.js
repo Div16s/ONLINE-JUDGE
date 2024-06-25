@@ -7,6 +7,7 @@ const problemStatementRouter = require('./routes/problemStatementRoute.js');
 const ideRouter = require('./routes/ideRoute.js');
 const submission_router = require('./routes/submissionRoute.js');
 const code_submission_router = require('./routes/submitRoute.js');
+const analyticsRouter = require('./routes/analyticsRoute.js');
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware.js');
 const cloudinary = require('cloudinary').v2;
 
@@ -32,6 +33,7 @@ app.use("/api/problemStatement", problemStatementRouter);
 app.use("/api/submissions",submission_router);
 app.use("/api/submit",code_submission_router);
 app.use("/api/ide", ideRouter);
+app.use("/api/analytics",analyticsRouter);
 
 app.use(notFound);
 app.use(errorHandler);

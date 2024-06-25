@@ -246,7 +246,7 @@ export const ProblemStatement = () => {
     useEffect(() => {
         const fetchProblem = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/problemStatement/${problemID}`);
+                const response = await axios.get(`http://localhost:8000/api/problemStatement/${problemID}`);
                 setProblem(response.data);
                 console.log("Problem statement fetched!!");
             } catch (error) {

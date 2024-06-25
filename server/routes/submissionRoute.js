@@ -1,5 +1,5 @@
 const express = require('express');
-const {getSubmissions, getSubmission} = require('../controller/submissionsController.js');
+const {getSubmissions, getSubmission} = require('../controllers/submissionsController.js');
 const { protect } = require('../middlewares/authMiddleware.js');
 const submission_router = express.Router();
 
